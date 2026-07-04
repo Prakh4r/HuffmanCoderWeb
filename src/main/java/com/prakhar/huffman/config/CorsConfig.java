@@ -19,6 +19,8 @@ import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 import org.springframework.web.filter.CorsFilter;
 
+import java.util.List;
+
 @Configuration
 public class CorsConfig {
 
@@ -27,7 +29,10 @@ public class CorsConfig {
 
         CorsConfiguration config = new CorsConfiguration();
 
-        config.addAllowedOrigin("http://localhost:5174");
+        config.setAllowedOrigins(List.of(
+                "http://localhost:5173",
+                "https://huffman-coder-web.vercel.app/"
+        ));
         config.addAllowedHeader("*");
         config.addAllowedMethod("*");
         config.addExposedHeader(HttpHeaders.CONTENT_DISPOSITION);
