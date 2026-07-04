@@ -5,13 +5,19 @@ import com.prakhar.huffman.compression.HuffmanDecompressor;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.stereotype.Service;
 
-import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 @Service
 public class HuffmanService {
+
+    private static final Logger logger =
+            LoggerFactory.getLogger(HuffmanService.class);
+
     public String getWelcomeMessage() {
         return "Welcome to HuffmanCoder!";
     }
@@ -20,6 +26,7 @@ public class HuffmanService {
         Path outputFile = Files.createTempFile("output-", ".huff");
 
         try{
+            logger.info("Compressing file: {}", file.getOriginalFilename());
             //converts or writes MultipartFile into inputFile so that our engine can understand
             file.transferTo(inputFile);
 
@@ -38,7 +45,7 @@ public class HuffmanService {
                     byte[]
             */
             //HTTP responses don't send Java File objects. They send bytes over the network.
-
+            logger.info("Compression completed successfully.");
             return Files.readAllBytes(outputFile);
         }finally {
             Files.deleteIfExists(inputFile);
@@ -50,12 +57,13 @@ public class HuffmanService {
         Path outputFile = Files.createTempFile("output-", ".txt");
 
         try{
-            //converts or writes MultipartFile into inputFile so that our engine can understand
+            logger.info("Decompressing file: {}", file.getOriginalFilename());
             file.transferTo(inputFile);
 
             HuffmanDecompressor decompressor = new HuffmanDecompressor();
             decompressor.decompress(inputFile.toString(), outputFile.toString());
 
+            logger.info("Decompression completed successfully.");
             return Files.readAllBytes(outputFile);
         }finally {
             Files.deleteIfExists(inputFile);

@@ -3,6 +3,8 @@ package com.prakhar.huffman.controller;
 import com.prakhar.huffman.exception.InvalidFileException;
 import com.prakhar.huffman.service.HuffmanService;
 import com.prakhar.huffman.util.FileManager;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -24,6 +26,8 @@ public class HuffmanController {
     public HuffmanController(HuffmanService huffmanService){
         this.huffmanService = huffmanService;
     }
+    private static final Logger logger =
+            LoggerFactory.getLogger(HuffmanController.class);
 
     @GetMapping("/hello")
     public String home(){
@@ -45,6 +49,7 @@ public class HuffmanController {
     ) throws IOException {
 
         if (file.isEmpty()) {
+            logger.warn("Empty file uploaded.");
             throw new InvalidFileException("Uploaded file is empty.");
         }
 
@@ -75,12 +80,14 @@ public class HuffmanController {
     ) throws IOException{
 
         if (file.isEmpty()) {
+            logger.warn("Empty file uploaded.");
             throw new InvalidFileException("Uploaded file is empty.");
         }
 
         String fileName = file.getOriginalFilename();
 
         if (fileName == null || !fileName.endsWith(".huff")) {
+            logger.warn("Invalid file uploaded for decompression: {}", fileName);
             throw new InvalidFileException("Please upload a valid .huff file.");
         }
 
