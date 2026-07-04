@@ -12,4 +12,34 @@ public class FileManager {
         Files.writeString(Path.of(path),text);
         return;
     }
+    public static String getCompressedFileName(String originalFileName){
+        String downloadFileName;
+
+        if (originalFileName == null || originalFileName.isBlank()) {
+            downloadFileName = "compressed.huff";
+        } else if (originalFileName.lastIndexOf('.') != -1) {
+            downloadFileName = originalFileName.substring(
+                    0,
+                    originalFileName.lastIndexOf('.')
+            ) + ".huff";
+        } else {
+            downloadFileName = originalFileName + ".huff";
+        }
+        return downloadFileName;
+    }
+    public static String getDecompressedFileName(String originalFileName){
+        String downloadFileName;
+
+        if (originalFileName == null || originalFileName.isBlank()) {
+            downloadFileName = "decompressed.txt";
+        } else if (originalFileName.lastIndexOf('.') != -1) {
+            downloadFileName = originalFileName.substring(
+                    0,
+                    originalFileName.lastIndexOf('.')
+            ) + ".txt";
+        } else {
+            downloadFileName = originalFileName + ".txt";
+        }
+        return downloadFileName;
+    }
 }

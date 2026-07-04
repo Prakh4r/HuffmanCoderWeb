@@ -1,6 +1,8 @@
 package com.prakhar.huffman.controller;
 
+import com.prakhar.huffman.exception.InvalidFileException;
 import com.prakhar.huffman.service.HuffmanService;
+import com.prakhar.huffman.util.FileManager;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -42,6 +44,10 @@ public class HuffmanController {
             @RequestParam("file") MultipartFile file
     ) throws IOException {
 
+        if (file.isEmpty()) {
+            throw new InvalidFileException("Uploaded file is empty.");
+        }
+
         byte[] compressedData = huffmanService.compress(file);
 
         //Building of a header file so that our browser can understand what to do with those bytes
@@ -57,9 +63,33 @@ public class HuffmanController {
             Example - attachment; filename="compressed.huff"
             so chrome will download the file with those bytes
         */
+        String downloadFileName = FileManager.getCompressedFileName(file.getOriginalFilename());
 
         return ResponseEntity.ok().contentType(MediaType.APPLICATION_OCTET_STREAM)
-                .header(HttpHeaders.CONTENT_DISPOSITION,"attachment; filename=\"compressed.huff\"")
+                .header(HttpHeaders.CONTENT_DISPOSITION,"attachment; filename=\"" + downloadFileName + "\"")
                 .body(compressedData);
+    }
+    @PostMapping("/decompress")
+    public ResponseEntity<byte[]> decompress(
+            @RequestParam("file") MultipartFile file
+    ) throws IOException{
+
+        if (file.isEmpty()) {
+            throw new InvalidFileException("Uploaded file is empty.");
+        }
+
+        String fileName = file.getOriginalFilename();
+
+        if (fileName == null || !fileName.endsWith(".huff")) {
+            throw new InvalidFileException("Please upload a valid .huff file.");
+        }
+
+        byte[] decompressedData = huffmanService.decompress(file);
+
+        String downloadFileName = FileManager.getDecompressedFileName(file.getOriginalFilename());
+
+        return ResponseEntity.ok().contentType(MediaType.APPLICATION_OCTET_STREAM)
+                .header(HttpHeaders.CONTENT_DISPOSITION,"attachment; filename=\"" + downloadFileName + "\"")
+                .body(decompressedData);
     }
 }

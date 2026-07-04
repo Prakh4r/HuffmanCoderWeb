@@ -1,6 +1,7 @@
 package com.prakhar.huffman.service;
 
 import com.prakhar.huffman.compression.HuffmanCompressor;
+import com.prakhar.huffman.compression.HuffmanDecompressor;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.stereotype.Service;
 
@@ -37,6 +38,23 @@ public class HuffmanService {
                     byte[]
             */
             //HTTP responses don't send Java File objects. They send bytes over the network.
+
+            return Files.readAllBytes(outputFile);
+        }finally {
+            Files.deleteIfExists(inputFile);
+            Files.deleteIfExists(outputFile);
+        }
+    }
+    public byte[] decompress(MultipartFile file) throws IOException{
+        Path inputFile = Files.createTempFile("input-", ".huff");
+        Path outputFile = Files.createTempFile("output-", ".txt");
+
+        try{
+            //converts or writes MultipartFile into inputFile so that our engine can understand
+            file.transferTo(inputFile);
+
+            HuffmanDecompressor decompressor = new HuffmanDecompressor();
+            decompressor.decompress(inputFile.toString(), outputFile.toString());
 
             return Files.readAllBytes(outputFile);
         }finally {
