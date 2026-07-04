@@ -30,8 +30,8 @@ public class CorsConfig {
         CorsConfiguration config = new CorsConfiguration();
 
         config.setAllowedOrigins(List.of(
-                "http://localhost:5173",
-                "https://huffman-coder-web.vercel.app/"
+                "http://localhost:5174",
+                "https://huffman-coder-web.vercel.app"
         ));
         config.addAllowedHeader("*");
         config.addAllowedMethod("*");
