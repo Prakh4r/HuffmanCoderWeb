@@ -14,11 +14,9 @@ A modern full-stack web application that performs **lossless file compression an
 
 ## 📸 Preview
 
-> Add screenshots here after uploading them.
-
 | Home Page | File Selected |
-|-----------|---------------|
-| ![Home](assets/home.png) | ![Upload](assets/upload.png) |
+|----------|--|
+| ![img.png](img.png) |![img_2.png](img_2.png)|
 
 ---
 
