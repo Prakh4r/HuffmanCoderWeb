@@ -1,151 +1,188 @@
 # HuffmanCoder
 
-A full-stack Huffman Coding application that provides **lossless file compression and decompression** through a RESTful API. The backend is built with **Spring Boot** and integrates a custom Huffman Coding engine developed from scratch.
+A modern full-stack web application that performs **lossless file compression and decompression** using the **Huffman Coding Algorithm**. The project features a custom Huffman engine implemented from scratch, exposed through a Spring Boot REST API and a responsive React frontend.
 
-> ⚠️ Frontend is currently under development.
+---
+
+## 🌐 Live Demo
+
+**Frontend:** https://huffman-coder-web.vercel.app
+
+**Backend:** https://huffmancoderweb-production.up.railway.app
+
+---
+
+## 📸 Preview
+
+> Add screenshots here after uploading them.
+
+| Home Page | File Selected |
+|-----------|---------------|
+| ![Home](assets/home.png) | ![Upload](assets/upload.png) |
 
 ---
 
 ## ✨ Features
 
-- 📁 Compress text files into a custom `.huff` format
-- 📂 Decompress `.huff` files back to their original content
-- 🚀 REST APIs built with Spring Boot
-- 📤 File upload using `MultipartFile`
+- 📂 Compress files into a custom `.huff` format
+- 📄 Decompress `.huff` files back to their original form
+- 🌳 Custom Huffman Tree implementation
+- ⚡ Bit-level compression using custom input/output streams
+- 📦 Custom `.huff` file format with metadata header
+- 🌐 RESTful API built using Spring Boot
+- 📤 Drag & Drop file upload
 - 📥 Automatic file download with original filename preservation
-- 🧹 Temporary file management
 - ⚠️ Global exception handling
 - ✅ File validation
-- 🌐 CORS configuration for frontend integration
 - 📝 Logging using SLF4J
+- 🔒 CORS configuration
+- 🎨 Modern responsive React UI
 
 ---
 
-## 🏗️ Architecture
+# 🏗️ Architecture
 
 ```
-                Client
-                   │
-                   ▼
-         HuffmanController
-                   │
-                   ▼
-          HuffmanService
-         ┌─────────┴─────────┐
-         ▼                   ▼
- HuffmanCompressor   HuffmanDecompressor
-         │                   │
-         ▼                   ▼
-     Huffman Engine (Custom Implementation)
+                    React + TypeScript
+                           │
+                           ▼
+                      Axios Client
+                           │
+                           ▼
+                Spring Boot REST API
+                           │
+                    HuffmanService
+                    ┌────────────┐
+                    ▼            ▼
+          HuffmanCompressor   HuffmanDecompressor
+                    │            │
+                    ▼            ▼
+            Huffman Coding Engine
+                    │
+                    ▼
+           Compressed File Download
 ```
 
 ---
 
-## 🛠️ Tech Stack
+# 🛠 Tech Stack
 
-### Backend
+## Backend
 
 - Java 21
-- Spring Boot 4.1
+- Spring Boot 4
 - Maven
+- REST API
 - SLF4J Logging
 
-### Core Algorithms
+## Frontend
+
+- React 19
+- TypeScript
+- Vite
+- Tailwind CSS
+- Axios
+- Lucide React
+
+## Algorithm
 
 - Huffman Coding
-- Binary Tree
-- Custom Bit Input/Output Streams
-- Custom `.huff` File Format
+- Binary Trees
+- Priority Queue
+- Bit Manipulation
+- File Compression
 
 ---
 
-## 📂 Project Structure
+# 📂 Project Structure
 
 ```
-src/main/java/com/prakhar/huffman
+HuffmanCoderWeb
 │
-├── compression
-├── controller
-├── exception
-├── io
-├── model
-├── service
-├── util
-├── config
-└── HuffmanApplication.java
+├── src/                      # Spring Boot Backend
+│
+├── frontend/
+│   ├── src/
+│   ├── public/
+│   └── package.json
+│
+├── pom.xml
+└── README.md
 ```
 
 ---
 
-## 📡 API Endpoints
+# 🚀 REST API
 
-### Compress File
+## Compress File
+
+### Endpoint
 
 ```
 POST /compress
 ```
 
-**Request**
+### Request
 
-- multipart/form-data
+```
+multipart/form-data
+```
 
-| Parameter | Type | Description |
-|----------|------|-------------|
-| file | File | Input text file |
+Parameter
 
-**Response**
+| Name | Type |
+|------|------|
+| file | File |
 
-- Compressed `.huff` file
+### Response
+
+Compressed `.huff` file
 
 ---
 
-### Decompress File
+## Decompress File
+
+### Endpoint
 
 ```
 POST /decompress
 ```
 
-**Request**
+### Request
 
-- multipart/form-data
+```
+multipart/form-data
+```
 
-| Parameter | Type | Description |
-|----------|------|-------------|
-| file | File | Input `.huff` file |
+Parameter
 
-**Response**
+| Name | Type |
+|------|------|
+| file | File |
 
-- Original decompressed file
+### Response
+
+Original decompressed file
 
 ---
 
-## 🚀 Running the Project
+# ⚙️ Running Locally
 
-### Clone the repository
+## Clone
 
 ```bash
 git clone https://github.com/Prakh4r/HuffmanCoderWeb.git
 ```
 
-### Navigate to the project
+---
 
-```bash
-cd HuffmanCoderWeb
-```
-
-### Run the application
-
-```bash
-./mvnw spring-boot:run
-```
-
-or
+## Backend
 
 ```bash
 mvn spring-boot:run
 ```
 
-The application starts at:
+Runs at
 
 ```
 http://localhost:8080
@@ -153,37 +190,59 @@ http://localhost:8080
 
 ---
 
-## 📌 Current Status
+## Frontend
 
-### Backend
+```bash
+cd frontend
 
-- ✅ Compression API
-- ✅ Decompression API
-- ✅ Validation
-- ✅ Exception Handling
-- ✅ Logging
-- ✅ CORS
+npm install
 
-### Frontend
+npm run dev
+```
 
-- 🚧 React frontend under development
+Runs at
 
----
-
-## 🔮 Future Improvements
-
-- React Frontend
-- Drag & Drop File Upload
-- Progress Indicator
-- Compression Statistics
-- Deployment
-- Docker Support
-- API Documentation (Swagger/OpenAPI)
+```
+http://localhost:5174
+```
 
 ---
 
-## 👨‍💻 Author
+# 📖 How It Works
+
+1. User uploads a file.
+2. React sends the file to the Spring Boot backend.
+3. The backend constructs a Huffman Tree using character frequencies.
+4. Huffman codes are generated.
+5. Data is encoded using bit-level compression.
+6. A custom `.huff` file is created containing:
+    - Header
+    - Frequency table
+    - Encoded bit stream
+7. The compressed file is returned to the frontend for download.
+8. During decompression, the Huffman Tree is reconstructed using the stored header and the original file is restored.
+
+---
+
+# 📌 Future Improvements
+
+- Compression statistics (Original vs Compressed size)
+- Compression ratio visualization
+- Multiple file upload
+- Folder compression
+- Dark mode
+- Docker support
+- Unit and integration testing
+
+---
+
+# 👨‍💻 Author
 
 **Prakhar Dhawan**
 
-GitHub: https://github.com/Prakh4r
+- GitHub: https://github.com/Prakh4r
+- LinkedIn: *https://www.linkedin.com/in/prakhar-dhawan-57970835a/*
+
+---
+
+## ⭐ If you found this project useful, consider giving it a star!
